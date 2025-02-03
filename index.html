@@ -1,0 +1,293 @@
+<!DOCTYPE html> 
+
+<html lang="pt-BR"> 
+
+<head> 
+
+  <meta charset="UTF-8"> 
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+  <title>Advanced Dice Roller – D12 RPG</title> 
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+
+  <style> 
+
+    /* CSS será inserido aqui */ 
+
+  </style> 
+
+</head> 
+
+ 
+
+<body> 
+
+  <div class="container"> 
+
+    <div class="admin-controls"> 
+
+      <input type="password" id="admin-password" placeholder="Senha Administrativa"> 
+
+      <button type="button" id="clear-all" class="btn danger"> 
+
+        <i class="fas fa-eraser"></i> Limpar Tudo 
+
+      </button> 
+
+    </div> 
+
+ 
+
+    <header> 
+
+      <h1><i class="fas fa-dice-d20"></i> Advanced Dice Roller – D12 RPG</h1> 
+
+      <div class="controls"> 
+
+        <div class="control-group"> 
+
+          <label for="dice-type"><i class="fas fa-dice"></i> Tipo de Dado (D1-D100):</label> 
+
+          <select id="dice-type" class="form-control"> 
+
+            <option value="1">D1</option> 
+
+            <option value="2">D2</option> 
+
+            <option value="3">D3</option> 
+
+            <option value="4">D4</option> 
+
+            <option value="5">D5</option> 
+
+            <option value="6">D6</option> 
+
+            <option value="7">D7</option> 
+
+            <option value="8">D8</option> 
+
+            <option value="9">D9</option> 
+
+            <option value="10">D10</option> 
+
+            <option value="11">D11</option> 
+
+            <option value="12" selected>D12</option> 
+
+            <option value="20">D20</option> 
+
+            <option value="100">D100</option> 
+
+          </select> 
+
+        </div> 
+
+ 
+
+        <div class="control-group"> 
+
+          <label for="difficulty"><i class="fas fa-balance-scale"></i> Dificuldade:</label> 
+
+          <input type="number" id="difficulty" class="form-control" min="1" max="100" value="6"> 
+
+        </div> 
+
+ 
+
+        <div class="control-group"> 
+
+          <label for="dice-count"><i class="fas fa-cubes"></i> Total de Dados:</label> 
+
+          <input type="number" id="dice-count" class="form-control" min="1" value="1"> 
+
+          <button type="button" id="remove-dice" class="btn secondary"> 
+
+            <i class="fas fa-minus"></i> Remover 
+
+          </button> 
+
+          <button type="button" id="add-dice" class="btn secondary"> 
+
+            <i class="fas fa-plus"></i> Adicionar 
+
+          </button> 
+
+        </div> 
+
+ 
+
+        <div class="control-group actions"> 
+
+          <button type="button" id="roll-dice" class="btn primary"> 
+
+            <i class="fas fa-dice"></i> Rolar Dados 
+
+          </button> 
+
+          <button type="button" id="roll-special" class="btn success" disabled> 
+
+            <i class="fas fa-star"></i> Rolar Especialidade 
+
+          </button> 
+
+          <button type="button" id="roll-fortitude" class="btn warning" disabled> 
+
+            <i class="fas fa-shield-alt"></i> Rolar Fortitude 
+
+          </button> 
+
+        </div> 
+
+      </div> 
+
+    </header> 
+
+ 
+
+    <section class="options"> 
+
+      <div class="option-group"> 
+
+        <label for="special"> 
+
+          <input type="checkbox" id="special">  
+
+          <i class="fas fa-magic"></i> Ativar Especialidade 
+
+        </label> 
+
+      </div> 
+
+       
+
+      <div class="option-group"> 
+
+        <label for="power"> 
+
+          <input type="checkbox" id="power"> 
+
+          <i class="fas fa-bolt"></i> Ativar Potência 
+
+        </label> 
+
+        <label for="total-power"> 
+
+          <i class="fas fa-tachometer-alt"></i> Total de Potência: 
+
+          <input type="number" id="total-power" class="form-control small" min="0" value="0"> 
+
+        </label> 
+
+      </div> 
+
+ 
+
+      <div class="option-group"> 
+
+        <label for="fortitude"> 
+
+          <input type="checkbox" id="fortitude"> 
+
+          <i class="fas fa-heart"></i> Ativar Fortitude 
+
+        </label> 
+
+        <label for="fortitude-count"> 
+
+          <i class="fas fa-dice-d6"></i> Total de Dados de Fortitude: 
+
+          <input type="number" id="fortitude-count" class="form-control small" min="0" value="0"> 
+
+        </label> 
+
+      </div> 
+
+    </section> 
+
+ 
+
+    <section class="results"> 
+
+      <div class="result-grid"> 
+
+        <div class="result-card critical"> 
+
+          <h3>Super Sucessos <span class="badge">9-12</span></h3> 
+
+          <p id="super-success">0</p> 
+
+        </div> 
+
+        <div class="result-card success"> 
+
+          <h3>Sucessos <span class="badge">6-8</span></h3> 
+
+          <p id="success">0</p> 
+
+        </div> 
+
+        <div class="result-card warning"> 
+
+          <h3>Falhas <span class="badge">2-5</span></h3> 
+
+          <p id="failure">0</p> 
+
+        </div> 
+
+        <div class="result-card danger"> 
+
+          <h3>Falhas Críticas <span class="badge">1</span></h3> 
+
+          <p id="critical-failure">0</p> 
+
+        </div> 
+
+        <div class="result-card primary total"> 
+
+          <h3>Total Líquido</h3> 
+
+          <p id="total-liquid">0</p> 
+
+        </div> 
+
+      </div> 
+
+    </section> 
+
+ 
+
+    <section class="dice-visuals"> 
+
+      <h2><i class="fas fa-eye"></i> Visualização dos Dados</h2> 
+
+      <div id="dice-display"></div> 
+
+    </section> 
+
+ 
+
+    <section class="history"> 
+
+      <h2><i class="fas fa-history"></i> Histórico <small>(Últimas 35 rolagens)</small></h2> 
+
+      <ul id="history-list"></ul> 
+
+    </section> 
+
+  </div> 
+
+ 
+
+  <script> 
+
+    // JavaScript será inserido aqui 
+
+  </script> 
+
+</body> 
+
+</html> 
+
+ 
